@@ -30,6 +30,13 @@ public class Role implements Serializable{
 	@Column
 	private String description;
 
+	
+	
+	public Role() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Long getId() {
 		return id;
 	}

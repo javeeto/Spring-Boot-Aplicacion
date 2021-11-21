@@ -31,6 +31,12 @@ public class User implements Serializable {
 	private Long id;	
 	
 	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 	@Column 
 	private String firstName;
 	@Column 
