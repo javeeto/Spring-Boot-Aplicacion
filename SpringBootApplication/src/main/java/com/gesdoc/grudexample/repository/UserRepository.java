@@ -1,5 +1,6 @@
 package com.gesdoc.grudexample.repository;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
@@ -10,7 +11,7 @@ import com.gesdoc.grudexample.entity.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long>{
 	
-	public Set<User> findByUsername(String username);
+	public Optional<User> findByUsername(String username);
 
 
 }
