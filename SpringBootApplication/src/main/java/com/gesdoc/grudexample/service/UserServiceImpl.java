@@ -88,6 +88,15 @@ public class UserServiceImpl implements UserService {
 		to.setEmail(from.getEmail());
 		to.setRoles(from.getRoles());
 	}
+
+	@Override
+	public void deleteUser(Long id) throws Exception {
+		User userDel = usersRepo.findById(id)
+				.orElseThrow(() -> new Exception("UsernotFound in deleteUser -"+this.getClass().getName()));
+
+		usersRepo.delete(userDel);
+		
+	}
 	
 
 }
