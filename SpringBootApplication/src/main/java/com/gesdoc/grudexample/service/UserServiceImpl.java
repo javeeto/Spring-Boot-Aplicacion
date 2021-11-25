@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gesdoc.grudexample.dto.ChangePasswordForm;
 import com.gesdoc.grudexample.entity.User;
 import com.gesdoc.grudexample.repository.UserRepository;
 
@@ -96,6 +97,30 @@ public class UserServiceImpl implements UserService {
 
 		usersRepo.delete(userDel);
 		
+	}
+
+	@Override
+	public User changePassword(ChangePasswordForm form) throws Exception {
+		User user = usersRepo
+				.findById( form.getId() )
+				.orElseThrow(() -> new Exception("UsernotFound in ChangePassword -"+this.getClass().getName()));
+		
+		
+		if(!user.getPassword().equals(form.getCurrentPassword())) {
+			throw new Exception("Clave actual invalido");
+		}
+
+		if(user.getPassword().equals(form.getNewPassword())) {
+			throw new Exception("Clave nueva debe ser diferente a una registrada");
+		}
+
+		if(!form.getNewPassword().equals(form.getConfirmPassword())) {
+			throw new Exception("Claves no coinciden");
+		}
+		
+		user.setPassword(form.getNewPassword());
+		
+		return usersRepo.save(user);
 	}
 	
 
