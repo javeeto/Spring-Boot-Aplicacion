@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.gesdoc.grudexample.dto.ChangePasswordForm;
 import com.gesdoc.grudexample.entity.User;
+import com.gesdoc.grudexample.exception.UsernameOrIdNotFound;
 import com.gesdoc.grudexample.repository.RoleRepository;
 import com.gesdoc.grudexample.service.UserService;
 
@@ -120,11 +121,11 @@ public class UserController {
 	}
 	
 	@GetMapping("/deleteUser/{id}")
-	public String deleteUser(Model model, @PathVariable(name="id") Long id) {
+	public String deleteUser(Model model, @PathVariable(name="id") Long id)  {
 		try {
 			userService.deleteUser(id);
-		}catch (Exception e) {
-			model.addAttribute("deleteError","The user could not be deleted.");
+		}catch (UsernameOrIdNotFound e) {
+			model.addAttribute("deleteError",e.getMessage());
 		}
 		
 		return userForm(model);

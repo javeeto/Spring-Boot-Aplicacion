@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.gesdoc.grudexample.dto.ChangePasswordForm;
 import com.gesdoc.grudexample.entity.User;
+import com.gesdoc.grudexample.exception.UsernameOrIdNotFound;
 import com.gesdoc.grudexample.repository.UserRepository;
 
 @Service
@@ -70,9 +71,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUserById(Long id) throws Exception {
+	public User getUserById(Long id) throws UsernameOrIdNotFound {
 		// TODO Auto-generated method stub
-		User user = usersRepo.findById(id).orElseThrow(() -> new Exception("Usuario no existe"));
+		User user = usersRepo.findById(id).orElseThrow(() -> new UsernameOrIdNotFound("Usuario no existe"));
 		return user;
 	}
 
@@ -99,9 +100,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Long id) throws Exception {
-		User userDel = usersRepo.findById(id)
-				.orElseThrow(() -> new Exception("UsernotFound in deleteUser -" + this.getClass().getName()));
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	public void deleteUser(Long id) throws UsernameOrIdNotFound {
+		User userDel = getUserById(id);
 
 		usersRepo.delete(userDel);
 
